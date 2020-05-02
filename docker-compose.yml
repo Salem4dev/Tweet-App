@@ -1,0 +1,44 @@
+version: '3'
+services:
+  django:
+    build: .
+    ports:
+     - "8000:8000"
+    depends_on:
+      - postgres
+    volumes:
+      - .:/app
+    env_file: .env
+    environment:
+      PYTHONUNBUFFERED: 1
+    restart: always
+    command: python manage.py runserver 0.0.0.0:8000
+  postgres:
+    image: postgres:12
+    ports:
+        - "5432:5432"
+    environment:
+        - PGDATA=/var/lib/postgresql/data/pgdata
+    env_file: .env
+    volumes:
+        - "postgres-db:/var/lib/postgresql/data/pgdata"
+    restart: always
+  pgadmin:
+    image: dpage/pgadmin4
+    links:
+        - postgres
+    depends_on:
+        - postgres
+    environment:
+        PGADMIN_DEFAULT_EMAIL: salem@salem.com
+        PGADMIN_DEFAULT_PASSWORD: salem
+    volumes:
+        - pgadmin:/root/.pgadmin
+    ports:
+        - "18060:80"
+    restart: always
+volumes:
+  django:
+  postgres-db:
+  pgadmin:
+    

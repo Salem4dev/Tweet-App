@@ -1,0 +1,9 @@
+for first install before django files installed run this command:
+    docker-compose run django django-admin startproject tweetApp .
+    or
+    docker-compose run django python manage.py startapp tweetApp
+
+to create new app do this:
+    mkdir ./projectName/appName && docker-compose run django django-admin startapp appName ./projectName/appName
+    or
+    docker-compose run django python manage.py startapp tweets

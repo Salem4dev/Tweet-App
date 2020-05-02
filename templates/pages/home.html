@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% block head_title %}Home{% endblock head_title %}
+{% block content %}
+<div class="row text-center">
+    <div class="col">
+        <h1>Welcome to Tweeter</h1>
+    </div>
+</div>
+<div class="row mb-3">
+    <div class="col-md-4 mx-auto col-10">
+        <form class="form" method="post" action="/create-tweet/">
+            {% csrf_token %}
+            <input type='hidden' value="/" name="next"/>
+            <textarea class="form-control" name="content" placeholder="Your Tweet"></textarea>
+            <button type="submit" class='btn btn-primary'>Tweet</button>
+        </form>
+    </div>
+</div>
+
+<div class="row" id="tweets">
+ LODDING...
+</tweets>
+<script>
+function handleLikeButton(tweet, count){
+    console.log(tweet, count)
+}
+function likeButton(tweet){
+    return "<button class='btn btn-primary' onclick=handleLikeButton("+tweet.id+","+tweet.likes+")>"+tweet.likes+" Like</button>"
+}
+function formatTweet(tweet){
+    var format = "<div class='col-12 col-md-10 mx-auto rounded border py-3 mb-4' id='tweet-"+tweet.id+"'><p>"+tweet.content+"</p><div class='btn-group'>"+ likeButton(tweet) +"</div></div>"
+    return format
+}
+const tweetsElment = document.getElementById('tweets')
+const xhr = new XMLHttpRequest()
+const method = "GET"
+const djurl = "/tweets"
+const responseType = "json"
+xhr.responseType = responseType
+xhr.open(method, djurl)
+xhr.onload = function(){
+    const serverResponse = xhr.response
+    const listTweets = serverResponse.response
+    var finalTweetStr = ""
+    var i;
+    for (i=0;i<listTweets.length;i++){
+        var tweetobj = listTweets[i]
+        var currentItem = formatTweet(tweetobj)
+        finalTweetStr += currentItem
+    }
+    tweetsElment.innerHTML = finalTweetStr
+}
+xhr.send()
+</script>
+{% endblock content %}
