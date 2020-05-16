@@ -7,3 +7,10 @@ to create new app do this:
     mkdir ./projectName/appName && docker-compose run django django-admin startapp appName ./projectName/appName
     or
     docker-compose run django python manage.py startapp tweets
+
+to migrate and migrations:
+    docker-compose run django python manage.py makemigrations
+    docker-compose run django python manage.py migrate 
+
+TO TEST APP :
+    docker-compose run django python manage.py test tweets

@@ -23,6 +23,18 @@ services:
     volumes:
         - "postgres-db:/var/lib/postgresql/data/pgdata"
     restart: always
+  reactjs:
+    build: ./frontend
+    stdin_open: true
+    command: ["npm", "start"]
+    volumes:
+      - ./frontend:/frontend
+      - node_modules:/frontend/node_modules
+    ports:
+      - "3000:3000"
+    depends_on:
+      - django
+
   pgadmin:
     image: dpage/pgadmin4
     links:
@@ -39,6 +51,7 @@ services:
     restart: always
 volumes:
   django:
+  node_modules:
   postgres-db:
   pgadmin:
     
