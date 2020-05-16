@@ -1,2 +1,2 @@
 # TweetApp
-TweetApp something like Twitter
+TweetApp its a tiny Twitter app :)
